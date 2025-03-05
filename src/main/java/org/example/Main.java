@@ -8,7 +8,6 @@ import org.example.factory.TaskFactory;
 import org.example.factory.PersonalTask;
 import org.example.state.CompletedState;
 import org.example.state.InProgressState;
-import org.example.observer.NotificationService;
 import org.example.mediator.TaskMediator;
 import org.example.chain.ValidationHandler;
 import org.example.template.Task;
@@ -18,18 +17,13 @@ public class Main {
         System.out.println("========");
 
         TaskManager manager = TaskManager.getInstance();    // Singleton
+        TaskMediator mediator = new TaskMediator(manager);
 
         ValidationHandler titleValidation = new TitleValidation();  //Chain - regras de validação
         ValidationHandler dateValidation = new DateValidation();
         titleValidation.setNext(dateValidation);
 
-        TaskLogic logic = new TaskLogic(manager, titleValidation);  //arquivo aux
-
-        TaskMediator mediator = new TaskMediator(manager);
-
-        NotificationService notificationService = new NotificationService();    //Observer
-        manager.addObserver(notificationService);
-
+        TaskLogic logic = new TaskLogic(manager, titleValidation, mediator);  //arquivo aux
 
         TaskFactory personalFactory = new PersonalTask();
         TaskFactory studyFactory = new StudyTask();

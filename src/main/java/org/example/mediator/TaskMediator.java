@@ -9,7 +9,7 @@ public class TaskMediator {
 
     public TaskMediator(TaskManager taskManager) {
         this.taskManager = taskManager;
-        this.notificationService = new NotificationService();
+        this.notificationService = new NotificationService();   //Observer
         taskManager.addObserver(notificationService);
     }
 

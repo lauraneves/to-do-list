@@ -35,7 +35,7 @@ public class TaskManager {
     public void printTasks() {
         System.out.println("Lista de Tarefas:");
         for (Task task : tasks) {
-            System.out.println("- " + task.getTitle() + " (" + task.getState().getClass().getSimpleName() + ")");
+            System.out.println("- " + task.getTitle() + " [" + task.getCategory() + "] (" + task.getState().getClass().getSimpleName() + ")");
         }
     }
 

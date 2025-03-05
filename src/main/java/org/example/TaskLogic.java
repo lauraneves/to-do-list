@@ -1,10 +1,10 @@
 package org.example;
 
-import org.example.command.AddTaskCommand;
 import org.example.command.RemoveTaskCommand;
 import org.example.command.TaskCommand;
 import org.example.factory.TaskFactory;
 import org.example.manager.TaskManager;
+import org.example.mediator.TaskMediator;
 import org.example.state.TaskState;
 import org.example.template.Task;
 import org.example.chain.ValidationHandler;
@@ -12,10 +12,12 @@ import org.example.chain.ValidationHandler;
 public class TaskLogic {
     private final TaskManager manager;
     private final ValidationHandler validator;
+    private final TaskMediator mediator;
 
-    public TaskLogic(TaskManager manager, ValidationHandler validator) {
+    public TaskLogic(TaskManager manager, ValidationHandler validator, TaskMediator mediator) {
         this.manager = manager;
         this.validator = validator;
+        this.mediator = mediator;
     }
 
     private boolean isValidTask(Task task) {
@@ -34,17 +36,12 @@ public class TaskLogic {
     }
 
     public void addTask(Task task) {
-        if (task != null) {
-            TaskCommand addCommand = new AddTaskCommand(manager, task);
-            addCommand.execute();
-        }
+        mediator.addTaskWithNotification(task);
     }
 
     public void updateTaskState(Task task, TaskState newState) {
-        if (task != null) {
-            task.setState(newState);
-            task.getState().handleState(task);
-        }
+        task.setState(newState);
+        task.executeTask();
     }
 
     public void removeTask(Task task) {
