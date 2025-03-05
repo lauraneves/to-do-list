@@ -4,8 +4,8 @@ import org.example.observer.NotificationService;
 import org.example.template.Task;
 
 public class TaskMediator {
-    private TaskManager taskManager;
-    private NotificationService notificationService;
+    private final TaskManager taskManager;
+    private final NotificationService notificationService;
 
     public TaskMediator(TaskManager taskManager) {
         this.taskManager = taskManager;
@@ -13,5 +13,8 @@ public class TaskMediator {
         taskManager.addObserver(notificationService);
     }
 
-
+    public void addTaskWithNotification(Task task) {
+        taskManager.addTask(task);
+        notificationService.update("Tarefa mediada adicionada: " + task.getTitle());
+    }
 }
