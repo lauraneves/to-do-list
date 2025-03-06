@@ -1,5 +1,6 @@
 package org.example.template;
 
+import java.time.LocalDateTime;
 import org.example.state.TaskState;
 import org.example.state.PendingState;
 
@@ -8,15 +9,17 @@ public abstract class Task {
     protected String description;
     protected String category;
     protected TaskState state;
+    private final LocalDateTime creationDate;
 
     public Task(String title, String description, String category) {
         this.title = title;
         this.description = description;
         this.category = category;
         this.state = new PendingState();
+        this.creationDate = LocalDateTime.now();
     }
 
-    public final void executeTask() {
+    public void executeTask() {
         validateTask();
         completeTask();
         notifyUser();
@@ -34,6 +37,10 @@ public abstract class Task {
 
     public String getTitle() {
         return title;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
     }
 
     public String getCategory() {
